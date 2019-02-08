@@ -72,7 +72,11 @@
         if (video.mozCaptureStream) {
             video.mozSrcObject = stream;
         } else {
-          video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+          if (window.URL && window.URL.createObjectURL) {
+            video.src = window.URL.createObjectURL(stream)
+          } else {
+            video.srcObject = stream;
+          }
         }
         video.play();
         this.video = video;
